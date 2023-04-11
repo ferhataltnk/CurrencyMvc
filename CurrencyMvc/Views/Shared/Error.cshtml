@@ -1,0 +1,14 @@
+﻿@model ErrorViewModel
+
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1 class="text-danger">Hata.</h1>
+<h2 class="text-danger">Beklenmedik bir hata oluştu.</h2>
+
+<div>
+    <p><strong>RequestId:</strong> @Model.RequestId</p>
+    <p><strong>Message:</strong> @Model.ErrorMessage</p>
+
+</div>

@@ -1,0 +1,83 @@
+﻿@using Entities;
+@model List<Currency>
+
+
+
+<style>
+    table {
+        width: 500px;
+        margin: 0 auto;
+        overflow: auto;
+        margin: 0 auto;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col">
+        <div style="height: 500px; overflow: auto;">
+            @{
+
+                <table class="table table-success table-striped">
+
+                    @if (Model.Count == 0)
+                    {
+
+                    }
+                    else
+                    {
+                        @if (Model[0] is null)
+                        {
+
+                        }
+                        else
+                        {
+
+                            <thead>
+                                <tr>
+                                    <td style="position: sticky; top: 0;">No</td>
+                                    <td style="position: sticky; top: 0;">Döviz Kuru</td>
+                                    <td style="position: sticky; top: 0;">Alış Değeri</td>
+                                    <td style="position: sticky; top: 0;">Satış Değeri</td>
+                                    <td style="position: sticky; top: 0;">Oluşturulan Tarih</td>
+                                    <td style="position: sticky; top: 0;">Tcmb Tarih</td>
+                                </tr>
+                            </thead>
+
+                        }
+                    }
+
+
+                    <tbody>
+                        @for (int i = 0; i < @Model.Count(); i++)
+                        {
+                            if (Model[i] is null)
+                            {
+                                <div id="alert1" class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>Uyarı </strong> Geçersiz bir değer girdiniz.
+
+                                </div>
+
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td>@($"{@Model[i].CurrencyNameTr} ({@Model[i].CurrencyCode})")</td>
+                                    <td>@Model[i].ForexBuying</td>
+                                    <td>@Model[i].ForexSelling</td>
+                                    <td>@Model[i].CreatedTime</td>
+                                    <td>@Model[i].TcmbCurrencyDate</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+
+            }
+
+        </div>
+
+    </div>
+
+</div>
