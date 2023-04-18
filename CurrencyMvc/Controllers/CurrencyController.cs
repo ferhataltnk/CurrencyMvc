@@ -1,6 +1,6 @@
 ﻿
 using Business.Services.Abstract;
-using CurrencyMvc.Filters;
+using CurrencyMvc.App_Start.Filters;
 using CurrencyMvc.Models;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +18,8 @@ namespace CurrencyMvc.Controllers
         {
             _currencyService = currencyService;
         }
-      
+
+       
         public IActionResult Index(CurrencyFormModel formModel)
         {
             CurrencyCodes dovizler = new CurrencyCodes();

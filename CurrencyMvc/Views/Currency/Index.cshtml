@@ -1,5 +1,6 @@
 ﻿@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
 @using Entities;
+@using System.Web.Optimization;
 @model CurrencyFormModel 
 
 
@@ -13,57 +14,62 @@
     $(document).ready(function () {
         $("#myButton").click(function () {
             $.ajax({
-                url: "Views\Shared\Components\CurrencyTable\Default.cshtml",
-                type: "GET",
+                url: "~\Views\Shared\Components\CurrencyTable\Default.cshtml",
+                type: "POST",
                 success: function (result) {
-                    $("#result").html(result);
-
-                }
-            });
+                 
+                    $(".result").html(result);
+                 }
+               });
+           });
         });
-    });
+
+
 </script>
 
 
 
-
+<div id="snackbar"></div>
 <div  class="container text-center my-5 ">
     <div  class="row border rounded my-3 mx-1">
         <div class="col">
             <form asp-action="Index" asp-controller="Currency" method="post">
-
                 <div class="input-group my-3">
                     <div style="width:150px;" class="input-group-text">
                         Döviz Kuru:
                     </div>
-                 @*   <input class="form-control" type="text"  asp-for="CurrencyCode" placeholder="3 haneli döviz kur kodunu giriniz" /> <br />
-                 *@
-                    <select class="form-control " type="text" asp-for="CurrencyCode" id="inputGroupSelect01">
-                        <option selected value="">Tüm kurlar için getir...</option>
-                        @foreach (var doviz in ViewBag.Dovizler.Kodlar)
-                        {
-                            <option value="@doviz.Key">@doviz.Value</option>
-                        }
-                    </select>
+                    <input class="form-control" type="text" asp-page-handler="CurrencyCode" asp-for="CurrencyCode" placeholder="3 haneli döviz kur kodunu giriniz" /> <br />
                 </div>
 
-                <div class="input-group">
+                <div class="input-group ">
                     <div style="width:150px;" class="input-group-text">Başlangıç Tarihi:</div>
-                    <input type="date"  asp-for="StartDate" aria-label="StartDate" class="form-control" placeholder="Başlangıç tarihi" />
+                    <input type="text" asp-for="StartDate" aria-label="StartDate" class="form-control" placeholder="Başlangıç tarihi" />
                     <div style="width:150px;" class="input-group-text">Bitiş Tarihi:</div>
-                    <input type="date"  asp-for="EndDate" aria-label="EndDate" class="form-control" placeholder="Bitiş tarihi" />
+                    <input type="text" asp-for="EndDate" aria-label="EndDate" class="form-control" placeholder="Bitiş tarihi" />
                 </div>
-                <button id="myButton" style="background-color:#c7dbd2;" class="btn btn-secondary btn-lg my-3 px-5 text-dark">Getir</button>
+
+                <div class="d-flex justify-content-center my-3">
+                    <button type="submit" id="myButton" style="background-color:#c7dbd2;" class="btn btn-secondary btn-lg px-5 text-dark">Getir</button>
+                </div>
+
+                <div class="result container text-center block mb-2">
+                <div class=" input-group ">
+                    <input type="text" asp-for="PageNumber" aria-label="PageNumber" class="form-control" placeholder="Sayfa No" />
+                        <input type="text" asp-for="PageSize" aria-label="PageSize" class="form-control" placeholder="İçerik Sayısı" />
+                </div>
+                </div>
             </form>
+
         </div>
     </div>
 
 
-    <div id="result">
+    <div  class="result container text-center block  ">
         @await Component.InvokeAsync("CurrencyTable",@Model)
-        
     </div>
 </div>
+
+
 
 
 

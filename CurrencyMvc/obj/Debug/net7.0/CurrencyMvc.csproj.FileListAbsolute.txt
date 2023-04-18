@@ -1105,3 +1105,16 @@ C:\Users\STJ79730\Desktop\Repos\CurrencyMvc\CurrencyMvc\obj\Debug\net7.0\refint\
 C:\Users\STJ79730\Desktop\Repos\CurrencyMvc\CurrencyMvc\obj\Debug\net7.0\CurrencyMvc.pdb
 C:\Users\STJ79730\Desktop\Repos\CurrencyMvc\CurrencyMvc\obj\Debug\net7.0\CurrencyMvc.genruntimeconfig.cache
 C:\Users\STJ79730\Desktop\Repos\CurrencyMvc\CurrencyMvc\obj\Debug\net7.0\ref\CurrencyMvc.dll
+C:\Users\STJ79730\Desktop\Repos\CurrencyMvc\CurrencyMvc\bin\Debug\net7.0\Antlr3.Runtime.dll
+C:\Users\STJ79730\Desktop\Repos\CurrencyMvc\CurrencyMvc\bin\Debug\net7.0\System.Web.Optimization.dll
+C:\Users\STJ79730\Desktop\Repos\CurrencyMvc\CurrencyMvc\bin\Debug\net7.0\Microsoft.Web.Infrastructure.dll
+C:\Users\STJ79730\Desktop\Repos\CurrencyMvc\CurrencyMvc\bin\Debug\net7.0\WebGrease.dll
+C:\Users\STJ79730\Desktop\Repos\CurrencyMvc\CurrencyMvc\bin\Debug\net7.0\Serilog.dll
+C:\Users\STJ79730\Desktop\Repos\CurrencyMvc\CurrencyMvc\bin\Debug\net7.0\Serilog.AspNetCore.dll
+C:\Users\STJ79730\Desktop\Repos\CurrencyMvc\CurrencyMvc\bin\Debug\net7.0\Serilog.Extensions.Hosting.dll
+C:\Users\STJ79730\Desktop\Repos\CurrencyMvc\CurrencyMvc\bin\Debug\net7.0\Serilog.Extensions.Logging.dll
+C:\Users\STJ79730\Desktop\Repos\CurrencyMvc\CurrencyMvc\bin\Debug\net7.0\Serilog.Formatting.Compact.dll
+C:\Users\STJ79730\Desktop\Repos\CurrencyMvc\CurrencyMvc\bin\Debug\net7.0\Serilog.Settings.Configuration.dll
+C:\Users\STJ79730\Desktop\Repos\CurrencyMvc\CurrencyMvc\bin\Debug\net7.0\Serilog.Sinks.Console.dll
+C:\Users\STJ79730\Desktop\Repos\CurrencyMvc\CurrencyMvc\bin\Debug\net7.0\Serilog.Sinks.Debug.dll
+C:\Users\STJ79730\Desktop\Repos\CurrencyMvc\CurrencyMvc\bin\Debug\net7.0\Serilog.Sinks.File.dll

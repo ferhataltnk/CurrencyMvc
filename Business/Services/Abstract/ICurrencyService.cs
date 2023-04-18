@@ -11,7 +11,7 @@ namespace Business.Services.Abstract
     public interface ICurrencyService
     {
         public Result<List<Currency>> GetCurrenciesByCode(CurrencyFormModel formModel);
-        public Result<List<Currency>> GetAllCurrencyBetweenTwoDate(CurrencyFormModel formModel);
-        public Result<List<Currency>> GetCurrenciesBetweenTwoDateAndWithCode(CurrencyFormModel formModel);
+        public Result<List<Currency>> GetCurrenciesBetweenDates(CurrencyFormModel formModel);
+        public Result<List<Currency>> GetCurrenciesByCodeAndBetweenDates(CurrencyFormModel formModel);
     }
 }

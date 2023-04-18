@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Diagnostics;
 
-namespace CurrencyMvc.Filters
+namespace CurrencyMvc.App_Start.Filters
 {
     public class ExceptionFilter : IExceptionFilter
     {
@@ -17,11 +17,11 @@ namespace CurrencyMvc.Filters
         {
             _logger.LogError(context.Exception, $"Beklenmedik bir hata oluştu.Detay: {context.Exception}.", context.ActionDescriptor.DisplayName);
 
-                context.Result = new RedirectToActionResult("Error", "Currency", new { errorMessage = context.Exception.Message });
+            context.Result = new RedirectToActionResult("Error", "Currency", new { errorMessage = context.Exception.Message });
 
-                context.ExceptionHandled = true;
-            
-            
+            context.ExceptionHandled = true;
+
+
         }
     }
 }

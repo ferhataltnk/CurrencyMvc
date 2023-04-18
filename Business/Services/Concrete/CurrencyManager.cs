@@ -1,66 +1,71 @@
 ﻿using Business.Services.Abstract;
 using Core.Utilities.Results;
 using Entities;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Serilog;
 using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Business.Services.Concrete
 {
     public class CurrencyManager : ICurrencyService
     {
-        private readonly ILogger<CurrencyManager> _logger;
-
-        public CurrencyManager(ILogger<CurrencyManager> logger)
+        private readonly ILogger _logger;
+        private readonly IHttpClientFactory _httpClientFactory;
+ 
+        public CurrencyManager(ILogger logger, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
+            _httpClientFactory = httpClientFactory;
         }
 
-        public Result<List<Currency>> GetAllCurrencyBetweenTwoDate(CurrencyFormModel formModel)
+        public Result<List<Currency>> GetCurrenciesBetweenDates(CurrencyFormModel formModel)
         {
             try
             {
-                using (var httpClient = new HttpClient())
+                using (var httpClient = _httpClientFactory.CreateClient()) //IHttpClientFactory
                 {
-                    var request = httpClient.GetAsync($"https://localhost:44332/api/Currency/v1/currency/{formModel.StartDate.ToString()}&{formModel.EndDate.ToString()}");
-                    var response2 = request.Result.Content.ReadAsStringAsync().Result;
-                    var value = JsonConvert.DeserializeObject<List<Currency>>(response2);
+                    var stringBuilder = new StringBuilder();
+                    //log serilog
+                    //https://localhost:44332/api CONSTANT 
+                    var request = httpClient.GetAsync($"https://localhost:44332/v1/api/currencies?StartDate={formModel.StartDate}&EndDate={formModel.EndDate}&PageNumber={formModel.PageNumber}&PageSize={formModel.PageSize}");
+                    var response = request.Result.Content.ReadAsStringAsync().Result;
+                    var result = JsonConvert.DeserializeObject<CurrencyResult>(response);
+             
 
-                    _logger.LogInformation("Döviz kurları başarıyla getirildi.");
-                    return new Result<List<Currency>>(data: value, success: true, message: "Döviz kurları başarıyla getirildi.");
+                    _logger.Information(result.Message);
+                    return new Result<List<Currency>>(data: result.Data, success: result.Success, message: result.Message);
                 }
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                _logger.LogError($"Döviz kurları getirilirken beklenmedik bir hata oluştu.\n Detay:{e.Message}");
-                return new Result<List<Currency>>(data: new List<Currency>(), success: false, message: $"Döviz kurları getirilirken beklenmedik bir hata oluştu.\n Detay:{e.Message}");
+                _logger.Error($"Döviz kurları getirilirken beklenmedik bir hata oluştu.\n Detay:{exception.Message}");
+                return new Result<List<Currency>>(data: new List<Currency>(), success: false, message: $"Döviz kurları getirilirken beklenmedik bir hata oluştu.{Environment.NewLine} Detay:{exception.Message}");
             }
         }
 
-        public Result<List<Currency>> GetCurrenciesBetweenTwoDateAndWithCode(CurrencyFormModel formModel)
+        public Result<List<Currency>> GetCurrenciesByCodeAndBetweenDates(CurrencyFormModel formModel)
         {
             try
-            {   
-                using (var httpClient = new HttpClient())
+            {
+               
+                using (var httpClient = _httpClientFactory.CreateClient())
                 {
-                    var request = httpClient.GetAsync($"https://localhost:44332/api/Currency/v1/currency/{formModel.CurrencyCode.ToString()}/{formModel.StartDate.ToString()}&{formModel.EndDate.ToString()}");
-                    var response3 = request.Result.Content.ReadAsStringAsync().Result;
-                    var value = JsonConvert.DeserializeObject<List<Currency>>(response3);
-                    _logger.LogInformation("Döviz kurları başarıyla getirildi.");
-                    return new Result<List<Currency>>(data: value, success: true, message: "Döviz kurları başarıyla getirildi.");
-                }    
+                    var stringBuilder = new StringBuilder();
+                    var request = httpClient.GetAsync($"https://localhost:44332/v1/api/currencies?CurrencyCode={formModel.CurrencyCode}&StartDate={formModel.StartDate}&EndDate={formModel.EndDate}&PageNumber={formModel.PageNumber}&PageSize={formModel.PageSize}");
+                    var response = request.Result.Content.ReadAsStringAsync().Result;
+                    var result = JsonConvert.DeserializeObject<CurrencyResult>(response);
                
 
+                    _logger.Information($"Döviz kurları başarıyla getirildi.{Environment.NewLine}Detay:{result.Message}");
+                    return new Result<List<Currency>>(data: result.Data, success: result.Success, message: result.Message);
+                }
+
+
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                _logger.LogError($"Döviz kurları getirilirken beklenmedik bir hata oluştu.\n Detay:{e.Message}");
-                return new Result<List<Currency>>(data: new List<Currency>(), success: false, message: $"Döviz kurları getirilirken beklenmedik bir hata oluştu.\n Detay:{e.Message}");
+                _logger.Error($"Döviz kurları getirilirken beklenmedik bir hata oluştu.{Environment.NewLine} Detay:{exception.Message}");
+                return new Result<List<Currency>>(data: new List<Currency>(), success: false, message: $"Döviz kurları getirilirken beklenmedik bir hata oluştu.{Environment.NewLine} Detay:{exception.Message}");
             }
         }
 
@@ -68,28 +73,24 @@ namespace Business.Services.Concrete
         {
             try
             {
-                using (var httpClient = new HttpClient())
+                using (var httpClient = _httpClientFactory.CreateClient())
                 {
-                    var request = httpClient.GetAsync($"https://localhost:44332/api/Currency/v1/currency/{formModel.CurrencyCode}");
-                    var response2 = request.Result.Content.ReadAsStringAsync().Result;
-                    var temp = JsonConvert.DeserializeObject<Currency>(response2);
-                    var value = new List<Currency>();
-                    value.Add(temp);
-                    //var c=value.SingleOrDefault<Currency>(p => p.CurrencyCode == formModel.CurrencyCode);
-                    //if(c is not null)
-                    _logger.LogInformation("Döviz kurları başarıyla getirildi.");
-                    return new Result<List<Currency>>(data: value, success: true, message: "Döviz kurları başarıyla getirildi.");
+                    var stringBuilder = new StringBuilder();
+                    var request = httpClient.GetAsync($"https://localhost:44332/v1/api/currencies?CurrencyCode={formModel.CurrencyCode}");
+                    var response = request.Result.Content.ReadAsStringAsync().Result;
+                    var result = JsonConvert.DeserializeObject<CurrencyResult>(response);
+                    
+                   
+
+                    _logger.Information(result.Message);
+                    return new Result<List<Currency>>(data: result.Data, success: result.Success, message: result.Message);
                 }
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                _logger.LogError($"Döviz kurları getirilirken beklenmedik bir hata oluştu.\n Detay:{e.Message}");
-                return new Result<List<Currency>>(data:new List<Currency>(),success:false,message:$"Döviz kurları getirilirken beklenmedik bir hata oluştu.\n Detay:{e.Message}");
+                _logger.Error($"Döviz kurları getirilirken beklenmedik bir hata oluştu.{Environment.NewLine} Detay:{exception.Message}");
+                return new Result<List<Currency>>(data: new List<Currency>(), success: false, message: $"Döviz kurları getirilirken beklenmedik bir hata oluştu.{Environment.NewLine} Detay:{exception.Message}");
             }
-
-      
         }
-
-      
     }
 }
